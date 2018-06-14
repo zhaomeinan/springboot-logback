@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <contextName>springboot-demo</contextName>
+
+    <property name="logback.logdir" value="E:\\zhaomeinan20180604\\idewokspace\\springbootdemo\\logs2"/>
+    <property name="logback.appname" value="app"/>
+
+    <!-- 输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--展示格式 layout-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- (输出到文件)此日志文件只记录error级别的 -->
+    <appender name="FILEERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logback.logdir}/error.${logback.appname}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logback.logdir}/error.${logback.appname}.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10KB</maxFileSize> <!-- KB\GB 文件大小超过10KB重新生成一个文件 -->
+            <maxHistory>90</maxHistory> <!--只保留最近90天的日志-->
+            <!--<totalSizeCap>1GB</totalSizeCap>--> <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- (输出到文件)此日志文件只记录warn级别的 -->
+    <appender name="FILEWARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logback.logdir}/warn.${logback.appname}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logback.logdir}/warn.${logback.appname}.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10KB</maxFileSize> <!-- KB\GB 文件大小超过10KB重新生成一个文件 -->
+            <maxHistory>90</maxHistory> <!--只保留最近90天的日志-->
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- (输出到文件)此日志文件只记录info级别的  -->
+    <appender name="FILEINFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logback.logdir}/info.${logback.appname}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logback.logdir}/info.${logback.appname}.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10KB</maxFileSize> <!-- KB\GB 文件大小超过10KB重新生成一个文件 -->
+            <maxHistory>90</maxHistory> <!--只保留最近90天的日志-->
+        </rollingPolicy>
+        <!--日志输出编码格式化-->
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- (输出到文件)此日志文件只记录debug级别的  -->
+    <appender name="FILEDEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <File>${logback.logdir}/debug.${logback.appname}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${logback.logdir}/debug.${logback.appname}.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <maxFileSize>10KB</maxFileSize> <!-- KB\GB 文件大小超过10KB重新生成一个文件 -->
+            <maxHistory>90</maxHistory> <!--只保留最近90天的日志-->
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d [%thread] %-5level %logger{36} %line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILEERROR"/>
+        <appender-ref ref="FILEWARN"/>
+        <appender-ref ref="FILEINFO"/>
+        <appender-ref ref="FILEDEBUG"/>
+    </root>
+
+    <!-- 可配置多个logger，指定包 -->
+    <logger name="com.example.springbootdemo" level="ERROR" additivity="false">
+        <!--appender将会添加到这个loger-->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <!-- 配置多环境日志输出 -->
+    <!--<springProfile name="prod">
+        <logger name="com.example.springbootdemo" level="ERROR" additivity="false">
+            &lt;!&ndash;appender将会添加到这个loger&ndash;&gt;
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILEERROR"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="dev">
+        <root level="DEBUG">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>-->
+
+</configuration>
