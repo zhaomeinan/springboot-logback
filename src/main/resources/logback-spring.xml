@@ -91,19 +91,53 @@
         </encoder>
     </appender>
 
+    <!-- (输出到LOGSTASH) -->
+    <appender name="LOGSTASH"
+              class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.48.129:9601</destination>
+        <!-- encoder必须配置,有多种可选 -->
+        <encoder charset="UTF-8"
+                 class="net.logstash.logback.encoder.LogstashEncoder" >
+            <!-- "appname":"yang_test" 的作用是指定创建索引的名字时用，并且在生成的文档中会多了这个字段  -->
+            <customFields>{"appname":"zhaomeinantest"}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- (输出到MONGODB)  -->
+    <appender name="MONGODB" class="com.example.mongodb.MongoDbAppender">
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILEERROR"/>
+        <!--<appender-ref ref="FILEERROR"/>
         <appender-ref ref="FILEWARN"/>
         <appender-ref ref="FILEINFO"/>
-        <appender-ref ref="FILEDEBUG"/>
+        <appender-ref ref="FILEDEBUG"/>-->
+
+        <!--<appender-ref ref="LOGSTASH"/>-->
+
+        <!--<appender-ref ref="MONGODB"/>-->
     </root>
 
-    <!-- 可配置多个logger，指定包 -->
-    <logger name="com.example.springbootdemo" level="ERROR" additivity="false">
-        <!--appender将会添加到这个loger-->
+    <logger name="org.mongodb.driver" level="ERROR" />
+
+    <logger name="com.example" level="error" additivity="false">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="MONGODB"/>
     </logger>
+
+    <!-- 测试环境+开发环境. 多个使用逗号隔开. -->
+    <!--<springProfile name="test,dev">
+        <logger name="org.springframework.web" level="INFO">
+            <appender-ref ref="MONGODB"/>
+        </logger>
+    </springProfile>-->
+
+    <!-- 可配置多个logger，指定包 -->
+    <!--<logger name="com.example.springbootdemo" level="ERROR" additivity="false">
+        &lt;!&ndash;appender将会添加到这个loger&ndash;&gt;
+        <appender-ref ref="STDOUT"/>
+    </logger>-->
 
     <!-- 配置多环境日志输出 -->
     <!--<springProfile name="prod">
