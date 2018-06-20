@@ -12,18 +12,13 @@ import java.util.Date;
  * @author: zhaomeinan
  * date: 2018/6/19 14:32
  */
-public class MongoDbAppender extends
+public class SysLogMongoDbAppender extends
         UnsynchronizedAppenderBase<ILoggingEvent> {
 
     @Override
     protected void append(ILoggingEvent eventObject) {
-        /*for(int i=0;i<100000;i++){
-            i = 1;
-        }*/
-
-        System.out.println("sys "+ eventObject.getLevel().toString() + " appender");
-
         MongoTemplate mongoTemplate = ApplicationContextProvider.getBean(MongoTemplate.class);
+
         if (mongoTemplate != null) {
             SysLog sysLog = new SysLog();
             sysLog.setLevel(eventObject.getLevel().toString());

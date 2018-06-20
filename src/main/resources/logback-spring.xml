@@ -104,7 +104,7 @@
     </appender>
 
     <!-- (输出到MONGODB)  -->
-    <appender name="MONGODB" class="com.example.mongodb.MongoDbAppender">
+    <appender name="MONGODB" class="com.example.mongodb.SysLogMongoDbAppender">
     </appender>
 
     <root level="INFO">
@@ -121,7 +121,7 @@
 
     <logger name="org.mongodb.driver" level="ERROR" />
 
-    <logger name="com.example" level="error" additivity="false">
+    <logger name="com.example" level="info" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="MONGODB"/>
     </logger>
