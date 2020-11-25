@@ -15,6 +15,9 @@ public class SpringbootdemoApplication {
 
 	public static void main(String[] args) {
 		int i=11;
+		i=1;
+		i=2;
+		i=3;
 		SpringApplication.run(SpringbootdemoApplication.class, args);
 	}
 }
