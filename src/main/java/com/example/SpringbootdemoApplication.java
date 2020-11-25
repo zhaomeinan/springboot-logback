@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class SpringbootdemoApplication {
 
 	public static void main(String[] args) {
-		int i=1;
+		int i=11;
 		SpringApplication.run(SpringbootdemoApplication.class, args);
 	}
 }
